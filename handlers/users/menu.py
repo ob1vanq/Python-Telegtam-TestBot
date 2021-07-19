@@ -13,7 +13,7 @@ async def show_menu(message: types.Message):
 
 @dp.message_handler(Text(equals=["Что-либо", "Нечто другое"]))
 async def choise_something(message: types.Message):
-    await message.answer(f"Поздравляю! Вы что-то выбрали...{message.text}")
+    await message.answer(f"Поздравляю! Вы что-то выбрали...{message.text}",reply_markup=ReplyKeyboardRemove())
 
 
 @dp.message_handler(text="Отмена")

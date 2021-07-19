@@ -11,9 +11,6 @@ async def bot_echo(message: types.Message):
 
 @dp.message_handler(IsPrivate())
 async def bot_echo(message: types.Message):
-    await message.answer(text=message.text)
-    from .help import bot_help
-    await bot_help(message)
-
+    await message.reply(text=f"Ехо {message.text}")
 
 
