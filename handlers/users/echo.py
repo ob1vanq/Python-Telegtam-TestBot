@@ -1,9 +1,8 @@
 from aiogram import types
 from aiogram.dispatcher.filters import Command
 
-from loader import dp, bot
+from loader import dp
 from filters import IsPrivate
-import json
 
 @dp.message_handler(Command("get_update"))
 async def bot_echo(message: types.Message):

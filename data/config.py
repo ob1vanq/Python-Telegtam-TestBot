@@ -12,9 +12,7 @@ aiogram_redis = {
     'host': ip,
 }
 
-chanels = [
-
-]
+channels = []
 
 redis = {
     'address': (ip, 6379),

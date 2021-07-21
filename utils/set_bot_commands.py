@@ -1,6 +1,9 @@
 from aiogram import types
 from loguru import logger
 
+from loader import bot
+
+
 async def set_default_commands(dp):
     await dp.bot.set_my_commands(
         [
@@ -14,7 +17,9 @@ async def set_default_commands(dp):
             types.BotCommand("ro", "Запретить пользователю писать сообщения"),
             types.BotCommand("unro", "Разрешить пользователю писать сообщения"),
             types.BotCommand("ban", "Забанить пользователя (удаление)"),
-            types.BotCommand("unban", "Разбанить пользователя")
+            types.BotCommand("unban", "Разбанить пользователя"),
+            types.BotCommand("channels", "Подписка на канал")
         ]
     )
     logger.info("Установка комманд прошла успешно")
+

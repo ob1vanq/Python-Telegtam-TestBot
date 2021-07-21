@@ -1,36 +1,42 @@
-from aiogram.types import Chat
-
-from loader import dp
+from loader import dp, bot
 from aiogram import types
 
-from data.config import chanels
-from filters import IsForwarded, IsPrivate
-from keyboards.inline.add_chanel import add_to_chanel
-
-
-@dp.message_handler(IsForwarded(), IsPrivate(), content_types=types.ContentType.ANY)
-async def get_chanel_info(message: types.Message):
-    global chanel
-    chanel= message.forward_from_chat
-    await message.answer(f"Сообщение прислано из: {message.forward_from_chat.title}\n"
-                         f"Username: {message.forward_from_chat.username}\n"
-                         f"Id: {message.forward_from_chat.id}", reply_markup=add_to_chanel)
-
-@dp.callback_query_handler(text="add_to_chanels")
-async def add_to_chanels(call: types.CallbackQuery):
-    if chanel.id not in chanels:
-        chanels.append(chanel.id)
-        chanel_list = str()
-        for chan in chanels:
-            chanel_list += f"{chan}\n"
-        await call.message.answer(f"Канал {chanel.title} добавлен в список ✅\n\n"
-                                     f"{chanel_list}", reply_markup=None)
-    else:
-        await call.answer(f"Канал {chanel.title} уже добавлен в список.", show_alert= True)
-        await call.message.edit_reply_markup()
+from aiogram.dispatcher.filters import Command
+from keyboards.inline.chek_sub import ChekSub
+from utils.misc import subs
+from data.config import channels
+from filters import IsPrivate
 
 
 
-@dp.callback_query_handler(text="do_not_chanels")
-async def add_to_chanels(call: types.CallbackQuery):
-    await call.message.edit_reply_markup()
+
+@dp.message_handler(Command("channels"), IsPrivate())
+async def show_channels(message: types.Message):
+    chanels_format = str()
+    for channel in channels:
+        chat = await bot.get_chat(channel)
+        invite_link = await  chat.export_invite_link()
+        chanels_format += f"Канал <a href ='{invite_link}'> {chat.title} </a>\n"
+    await message.answer(f"Подпишитесь на следующие каналы: \n\n"
+                         f"{chanels_format}",
+                         reply_markup=ChekSub, disable_web_page_preview=True)
+
+
+@dp.callback_query_handler(text="chek_sub")
+async def checker(call: types.CallbackQuery):
+    await call.answer()
+    result = str("Подпишитесь на следующие каналы: \n\n")
+    for channel in channels:
+        status = await subs.chek(user_id=call.from_user.id,
+                                 channel=channel)
+        channel = await bot.get_chat(channel)
+        invite_link = await channel.export_invite_link()
+
+        if status:
+            result += f"✅ Подписка на канал <a href ='{invite_link}'> {channel.title} </a> оформлена\n"
+
+        else:
+            result += f"❌ Подписка на канал <a href ='{invite_link}'> {channel.title} </a> не оформлена\n"
+
+
+    await call.message.edit_text(result, disable_web_page_preview=True, reply_markup=ChekSub)
