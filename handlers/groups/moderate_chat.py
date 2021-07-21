@@ -66,8 +66,8 @@ async def undo_read_only_mode(message: types.Message):
 
 @dp.message_handler(IsGroup(), Command("ban", prefixes="!/"), AdminFilter())
 async def ban_user(message: types.Message):
-    member = message.reply_to_message.from_user
     try:
+        member = message.reply_to_message.from_user
         await message.chat.kick(user_id=member.id)
         await message.reply(f"Пользователь {member.get_mention(as_html=True)} был забанен")
     except BadRequest:
