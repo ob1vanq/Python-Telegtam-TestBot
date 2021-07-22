@@ -18,7 +18,8 @@ async def set_default_commands(dp):
             types.BotCommand("unro", "Разрешить пользователю писать сообщения"),
             types.BotCommand("ban", "Забанить пользователя (удаление)"),
             types.BotCommand("unban", "Разбанить пользователя"),
-            types.BotCommand("channels", "Подписка на канал")
+            types.BotCommand("channels", "Подписка на канал"),
+            types.BotCommand("suggest_post", "Отправить пост на проверку")
         ]
     )
     logger.info("Установка комманд прошла успешно")
