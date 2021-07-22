@@ -21,11 +21,17 @@ async def set_new_photo(message: types.Message):
 
 @dp.message_handler(IsGroup(), Command("set_title", prefixes="!/"), AdminFilter())
 async def set_new_title(message: types.Message):
-    source_message = message.reply_to_message
-    await message.chat.set_title(title=source_message.text)
+    try:
+        source_message = message.reply_to_message
+        await message.chat.set_title(title=source_message.text)
+    except:
+        await message.answer("Это че за хуйня")
 
 
 @dp.message_handler(IsGroup(), Command("set_description", prefixes="!/"), AdminFilter())
 async def set_new_title(message: types.Message):
-    source_message = message.reply_to_message
-    await message.chat.set_description(description=source_message.text)
+    try:
+        source_message = message.reply_to_message
+        await message.chat.set_description(description=source_message.text)
+    except:
+        await message.answer("Это че за хуйня")
