@@ -3,7 +3,6 @@ from aiogram.dispatcher.filters import Command
 
 from data import admins
 from data.config import channels
-from filters import AdminFilter
 from keyboards.inline.confirm_keyboard import confirm_post, post_callback
 from loader import dp, bot
 from states import SugPost
@@ -26,6 +25,7 @@ async def enter_post(message: types.Message, state: FSMContext):
 
 @dp.callback_query_handler(post_callback.filter(action="post"), state=SugPost.Confirm)
 async def confrim_post(call: types.CallbackQuery, state: FSMContext):
+    await call.answer()
     async with state.proxy() as data:
         text = data.get("text")
         mention = data.get("mention")
@@ -41,6 +41,7 @@ async def confrim_post(call: types.CallbackQuery, state: FSMContext):
 
 @dp.callback_query_handler(post_callback.filter(action="cancel"))
 async def cancel_post(call: types.CallbackQuery, state: FSMContext):
+    await call.answer()
     await state.finish()
     await call.message.edit_text("Вы отклонили пост.")
 
@@ -58,11 +59,13 @@ async def confirm_admin_post(call: types.CallbackQuery):
         target_channel = channels[0]
         message = await call.message.edit_reply_markup()
         await message.send_copy(chat_id=target_channel)
+        await message.answer("Пост опубликован.")
     except:
         await call.message.answer("⚠️Список каналов пуст. Пост не отправлен")
 
 
 @dp.callback_query_handler(post_callback.filter(action="cancel"), user_id=admins)
 async def cancel_admin_post(call: types.CallbackQuery):
+    await call.answer()
     await call.answer("Пост отменен", show_alert=True)
     await call.message.edit_reply_markup()
