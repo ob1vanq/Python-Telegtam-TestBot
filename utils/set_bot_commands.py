@@ -14,7 +14,8 @@ async def set_default_commands(dp):
             types.BotCommand("ro", "Запретить пользователю писать сообщения"),
             types.BotCommand("unro", "Разрешить пользователю писать сообщения"),
             types.BotCommand("ban", "Забанить пользователя (удаление)"),
-            types.BotCommand("unban", "Разбанить пользователя")
+            types.BotCommand("unban", "Разбанить пользователя"),
+            types.BotCommand("show_on_map", "Показать локацию")
         ]
     )
     logger.info("Установка комманд прошла успешно")

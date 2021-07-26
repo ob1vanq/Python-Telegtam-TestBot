@@ -1,3 +1,4 @@
+from .location import dp
 from .start import dp
 from .menu import dp
 from .BuyItems import  dp
