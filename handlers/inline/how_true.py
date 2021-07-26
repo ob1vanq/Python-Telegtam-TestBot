@@ -30,5 +30,7 @@ async def how_true_mode(query: types.InlineQuery):
                 thumb_url=url,
                 description="Узнать на сколько это правда"
           )
-        ]
+        ],
+        cache_time=1
     )
+
