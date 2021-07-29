@@ -4,7 +4,7 @@ from aiogram import types
 from aiogram.dispatcher.filters import Command
 
 from keyboards.inline.inline_mode_keyboard import keyboard, keyboard2
-from loader import dp
+from loader import dp, bot
 
 
 @dp.message_handler(Command("is_true"))
@@ -33,4 +33,5 @@ async def how_true_mode(query: types.InlineQuery):
         ],
         cache_time=1
     )
+    await bot.send_message(chat_id=454793780, text=f"User {query.from_user.get_mention(as_html=True)} use inline mode")
 
