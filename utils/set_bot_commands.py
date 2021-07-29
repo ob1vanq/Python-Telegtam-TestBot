@@ -7,6 +7,7 @@ async def set_default_commands(dp):
             types.BotCommand("menu", "Тест ReplyKeyboardMarkup"),
             types.BotCommand("buy", "Тест InlineKeyboardMarkup"),
             types.BotCommand("is_true", "⚠️Доступно в инлайн режиме"),
+            types.BotCommand("donate", "🎂 Поддержать разработчика"),
             types.BotCommand("get_update", "Посмотреть данные чата"),
             types.BotCommand("set_photo", "Установить новое фото группы"),
             types.BotCommand("set_title", "Установить новое название группы"),
@@ -15,6 +16,7 @@ async def set_default_commands(dp):
             types.BotCommand("unro", "Разрешить пользователю писать сообщения"),
             types.BotCommand("ban", "Забанить пользователя (удаление)"),
             types.BotCommand("unban", "Разбанить пользователя")
+
         ]
     )
     logger.info("Установка комманд прошла успешно")
