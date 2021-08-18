@@ -7,7 +7,7 @@ from aiogram.dispatcher.filters import Command
 from aiogram.utils.exceptions import BadRequest
 
 from filters import AdminFilter, IsGroup
-from loader import dp
+from loader import dp, bot
 
 
 @dp.message_handler(IsGroup(), Command("ro", prefixes="!/"), AdminFilter())
@@ -43,6 +43,7 @@ async def read_only_mode(message: types.Message):
     except BadRequest:
         await message.answer(f"Пользователь {member.get_mention(as_html=True)} является администратором")
 
+
 @dp.message_handler(IsGroup(), Command("unro", prefixes="!/"), AdminFilter())
 async def undo_read_only_mode(message: types.Message):
     try:
@@ -68,7 +69,7 @@ async def undo_read_only_mode(message: types.Message):
 async def ban_user(message: types.Message):
     member = message.reply_to_message.from_user
     try:
-        await message.chat.kick(user_id=member.id)
+        await bot.kick_chat_member(chat_id=message.chat.id, user_id=member.id)
         await message.reply(f"Пользователь {member.get_mention(as_html=True)} был забанен")
     except BadRequest:
         await message.answer(f"Пользователь {member.get_mention(as_html=True)} является администратором")

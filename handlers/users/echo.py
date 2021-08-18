@@ -7,7 +7,10 @@ import json
 
 @dp.message_handler(Command("get_update"))
 async def bot_echo(message: types.Message):
-    await message.answer(f"<pre>{message}</pre>")
+    json_message = json.loads(str(message))
+    json_message = f"<pre>{json.dumps(json_message, indent = 1, ensure_ascii = False)}</pre>"
+    await message.answer(json_message)
+
 
 @dp.message_handler(IsPrivate())
 async def bot_echo(message: types.Message):
